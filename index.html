@@ -1,30 +1,155 @@
 <html>
     <style>
-        .circle-container {
-            width: 100px;
-            height: 100px;
-            border-radius: 0%; /* Start as a square */
-            border: 2px solid black;
-            animation: drawCircle 2s ease-in-out forwards;
+        @property --logoAngle {
+            syntax: "<angle>";
+            inherits: false;
+            initial-value: 0deg;
         }
-        @keyframes drawCircle {
-            0% {
-                border-radius: 0%;
-                width: 0px;
-                height: 0px;
-            }
 
-            100% {
-                border-radius: 50%;
-                width: 100px;
-                height: 100px;
-            }
+        @property --cLength {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 0%;
+        }
 
+        @property --scLength {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 0%;
+        }
+        .logo {
+            animation-name: logo-spin;
+            animation-delay: 2s;
+            animation-duration: 1.55s;
+            animation-timing-function: cubic-bezier(0.25,.1,.25,1);
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+            transform: rotate( var(--logoAngle) );
+        }
+
+        @keyframes logo-spin {
+            0% { --logoAngle: 0deg; }
+            20% { --logoAngle: -50deg; }
+            100% { --logoAngle: 1100deg; }
+        }
+
+        .main-circle {
+            width: 200px; 
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: conic-gradient( #000 var(--cLength), #fff 0); 
+            position: relative;
+            margin: auto;
+            animation-name: big-circle;
+            animation-duration: .75s;
+            animation-timing-function: ease-in;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        .main-circle::before {
+            position: absolute;
+            inset: 20px; 
+            content:' ';
+            text-align: center;
+            border-radius: inherit;
+            background: white;
+        }
+
+        @keyframes big-circle {
+            0% { --cLength: 0%; }
+            100% { --cLength: 100%; }
+        }
+
+        .logo-line{
+            position: absolute;
+            z-index: 1000;
+            width: 20px;
+            height: 0;
+            background: black;
+            animation-name: line-draw;
+            animation-delay: .75s;
+            animation-duration: .5s;
+            animation-timing-function: ease-in;
+            animation-fill-mode: forwards;
+        }
+
+        .logo-line.left{
+            top: 20px;
+            left: 85px;
+            transform: translateX(-42.5%);
+        }
+
+        
+        .logo-line.right{
+            bottom: 20px;
+            left: 115px;
+            transform: translateX(-57.5%) rotate(180deg);
+
+        }
+
+        @keyframes line-draw {
+            from {  height: 0; }
+            to { height: 80px; }
+        }
+
+        .small-circle {
+            width: 70px; 
+            aspect-ratio: 1;
+            border-radius: 50%;
+            position: absolute;
+            margin: auto;
+            animation-name: small-keys;
+            animation-duration: .75s;
+            animation-delay: 1.25s;
+            animation-timing-function: ease-out;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        
+
+        .small-circle::before {
+            position: absolute;
+            inset: 21px; 
+            content:' ';
+            text-align: center;
+            border-radius: inherit;
+            background: white;
+        }
+
+        .small-circle.left {
+            background: conic-gradient( from 90deg, #000 var(--scLength), #fff 0); 
+            top: 65px;
+            left: 27px;
+        }
+        
+        .small-circle.right {
+            background: conic-gradient( from 270deg, #000 var(--scLength), #fff 0); 
+            top: 65px;
+            left: 103px;
+        }
+
+        
+
+        @keyframes small-keys {
+            0% { ---scLength: 0%; }
+            100% { --scLength: 100%; }
+        }
+
+        body{
+            display: grid;
+            place-content: center;
+            margin: 0;
         }
     </style>
     <body>
-        <h1>Dwight's Test Page</h1>
-        <p>This is a test page for Dwight.</p>
-        <div class="circle-container"></div>
+        <div class="logo">
+            <div class="main-circle">
+                <div class="logo-line left"></div> 
+                <div class="logo-line right"></div> 
+                <div class="small-circle left"></div>   
+                <div class="small-circle right"></div>   
+            </div>
+        </div>
     </body>
 </html>
